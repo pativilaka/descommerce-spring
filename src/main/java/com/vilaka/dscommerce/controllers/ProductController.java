@@ -5,7 +5,11 @@ import com.vilaka.dscommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = "/products")
@@ -16,8 +20,9 @@ public class ProductController {
 
 
     @GetMapping(value = "/{id}")
-    public ProductDTO findById(@PathVariable Long id){
-        return service.findById(id);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
+        ProductDTO productDto = service.findById(id);
+        return ResponseEntity.ok(productDto);
     }
 
 //    @GetMapping
@@ -27,14 +32,17 @@ public class ProductController {
 //    }
 
     @GetMapping
-    public Page<ProductDTO> findAllPage(Pageable pageable){
+    public ResponseEntity<Page<ProductDTO>> findAllPage(Pageable pageable){
         Page<ProductDTO> allPage = service.findAllPage(pageable);
-        return allPage;
+        return ResponseEntity.ok(allPage);
     }
 
     @PostMapping
-    public ProductDTO insert(@RequestBody ProductDTO dto){
-        return service.insert(dto);
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto){
+        dto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                        .buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
     }
 
 }
