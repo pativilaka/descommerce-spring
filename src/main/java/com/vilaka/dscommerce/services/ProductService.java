@@ -3,6 +3,7 @@ package com.vilaka.dscommerce.services;
 import com.vilaka.dscommerce.dto.ProductDTO;
 import com.vilaka.dscommerce.entities.Product;
 import com.vilaka.dscommerce.repositories.ProductRepository;
+import com.vilaka.dscommerce.services.exceptions.ResourceNotFoundeption;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ public class ProductService {
     public ProductDTO findById(Long id){
 
         Optional<Product> result = repository.findById(id);
-        Product product = result.get();
+        Product product = result.orElseThrow(()-> new ResourceNotFoundeption("Id não encontrado!"));
 
         ProductDTO dto = new ProductDTO(product);
         return dto;
