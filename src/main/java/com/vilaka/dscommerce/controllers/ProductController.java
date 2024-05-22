@@ -1,6 +1,7 @@
 package com.vilaka.dscommerce.controllers;
 
 import com.vilaka.dscommerce.dto.ProductDTO;
+import com.vilaka.dscommerce.dto.ProductMinDTO;
 import com.vilaka.dscommerce.services.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ public class ProductController {
 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
-        ProductDTO productDto = service.findById(id);
-        return ResponseEntity.ok(productDto);
+    public ResponseEntity<ProductMinDTO> findById(@PathVariable Long id){
+        ProductMinDTO productMinDto = service.findById(id);
+        return ResponseEntity.ok(productMinDto);
     }
 
 //    @GetMapping
@@ -34,10 +35,10 @@ public class ProductController {
 //    }
 
     @GetMapping
-    public ResponseEntity<Page<ProductDTO>> findAllPage(
+    public ResponseEntity<Page<ProductMinDTO>> findAllPage(
             @RequestParam(name = "name", defaultValue = "") String name,
             Pageable pageable){
-        Page<ProductDTO> allPage = service.findAllPage(name, pageable);
+        Page<ProductMinDTO> allPage = service.findAllPage(name, pageable);
         return ResponseEntity.ok(allPage);
     }
 
