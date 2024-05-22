@@ -2,10 +2,7 @@ package com.vilaka.dscommerce.dto;
 
 import com.vilaka.dscommerce.entities.Category;
 import com.vilaka.dscommerce.entities.Product;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -21,6 +18,7 @@ public class ProductDTO {
     @Size(min = 10, message = "Descrição precisa ter no mínimo 10 caracteres")
     @NotBlank
     private String description;
+    @NotNull(message = "Preço requerido")
     @Positive(message = "O preço deve ser positivo")
     private Double price;
     private String imgURL;
