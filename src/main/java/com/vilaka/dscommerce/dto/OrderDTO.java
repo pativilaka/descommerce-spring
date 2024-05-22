@@ -3,6 +3,7 @@ package com.vilaka.dscommerce.dto;
 import com.vilaka.dscommerce.entities.Order;
 import com.vilaka.dscommerce.entities.OrderItem;
 import com.vilaka.dscommerce.entities.OrderStatus;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -17,6 +18,7 @@ public class OrderDTO {
     private OrderStatus status;
     private UserMinDTO client;
     private PaymentDTO payment;
+    @NotEmpty(message = "Deve ter ao menos 01 ítem")
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO(Long id, Instant moment, OrderStatus status, UserMinDTO client, PaymentDTO payment) {
