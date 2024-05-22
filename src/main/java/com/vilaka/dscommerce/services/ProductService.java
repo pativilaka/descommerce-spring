@@ -1,7 +1,9 @@
 package com.vilaka.dscommerce.services;
 
+import com.vilaka.dscommerce.dto.CategoryDTO;
 import com.vilaka.dscommerce.dto.ProductDTO;
 import com.vilaka.dscommerce.dto.ProductMinDTO;
+import com.vilaka.dscommerce.entities.Category;
 import com.vilaka.dscommerce.entities.Product;
 import com.vilaka.dscommerce.repositories.ProductRepository;
 import com.vilaka.dscommerce.services.exceptions.DataBaseException;
@@ -23,12 +25,12 @@ public class ProductService {
     private ProductRepository repository;
 
     @Transactional
-    public ProductMinDTO findById(Long id){
+    public ProductDTO findById(Long id){
 
         Optional<Product> result = repository.findById(id);
         Product product = result.orElseThrow(()-> new ResourceNotFoundException("Recurso não encontrado!"));
 
-        ProductMinDTO dto = new ProductMinDTO(product);
+        ProductDTO dto = new ProductDTO(product);
         return dto;
     }
 
@@ -87,6 +89,13 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setPrice(dto.getPrice());
         entity.setImgUrl(dto.getImgURL());
+
+        entity.getCategories().clear();
+        for (CategoryDTO catDto : dto.getCategories()){
+            Category cat = new Category();
+            cat.setId(catDto.getId());
+            entity.getCategories().add(cat);
+        }
     }
 
 }
