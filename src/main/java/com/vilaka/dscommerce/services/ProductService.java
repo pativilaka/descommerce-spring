@@ -69,9 +69,9 @@ public class ProductService {
         }
     }
 
-    //@Transactional(Transactional.TxType.SUPPORTS)
+
     //@Transactional(propagation = Propagation.SUPPORTS)
-    @Transactional
+    @Transactional(Transactional.TxType.SUPPORTS)
     public void delete(Long id){
         if(!repository.existsById(id)){
             throw new ResourceNotFoundException("Recurso não encontrado!");
@@ -81,7 +81,6 @@ public class ProductService {
         }catch (DataIntegrityViolationException e){
             throw new DataBaseException("Falha de integridade referêncial!");
         }
-
     }
 
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
